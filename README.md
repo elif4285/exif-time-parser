@@ -23,3 +23,10 @@ This library accepts the three shapes that actually occur in EXIF and returns a 
 Timezone offsets in EXIF are interpreted and then **dropped**: the returned `datetime` is always naive. EXIF timestamps are overwhelmingly meant as local camera time, and silently attaching an offset has historically caused more downstream bugs than it solved. If you genuinely need offset-aware datetimes, convert after parsing — but first read the EXIF spec's non-commitment on the matter.
 
 Subsecond precision is quantised to whole microseconds (the resolution of Python's `datetime`). A 7-digit fraction is truncated, not rounded; `.5` is padded to `.500000`. The normalised output round-trips through `parse_exif_datetime`.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
