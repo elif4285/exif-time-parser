@@ -1,6 +1,6 @@
 [project]
 name = "exif-time-parser"
-version = "0.1.0"
+version = "0.1.1"
 description = "Parses and normalizes EXIF date-time strings from image metadata."
 requires-python = ">=3.10"
 dependencies = []
